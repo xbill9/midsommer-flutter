@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +52,16 @@ class _GameScreenState extends State<GameScreen> {
     // Set fullscreen sticky immersive mode
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-    _controller = WebViewController()
+    // Set up creation parameters for iOS WebKit to allow autoplay
+    final PlatformWebViewControllerCreationParams params =
+        WebViewPlatform.instance is WebKitWebViewPlatform
+            ? WebKitWebViewControllerCreationParams(
+                allowsInlineMediaPlayback: true,
+                mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+              )
+            : const PlatformWebViewControllerCreationParams();
+
+    _controller = WebViewController.fromPlatformCreationParams(params)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(

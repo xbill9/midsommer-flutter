@@ -6,7 +6,7 @@ export JAVA_HOME
 export PATH := $(JAVA_HOME)/bin:$(PATH)
 export ANDROID_HOME := /home/xbill/android-sdk
 
-.PHONY: help dev run build-apk install-apk clean logcat
+.PHONY: help dev run build-apk build-ios install-apk clean logcat
 
 # Default target: show help
 help:
@@ -16,6 +16,7 @@ help:
 	@echo "Available commands:"
 	@echo "  make dev          - Start the local web server for browser play (from assets/)"
 	@echo "  make build-apk    - Compile the Flutter App and build Debug APK"
+	@echo "  make build-ios    - Compile the Flutter App and build iOS app (no codesign)"
 	@echo "  make install-apk  - Install the compiled debug APK on a connected device/emulator"
 	@echo "  make clean        - Clean Flutter build outputs and temporary caches"
 	@echo "  make logcat       - Monitor application logs using Flutter logger"
@@ -31,6 +32,11 @@ run:
 build-apk:
 	@echo "Building Flutter Debug APK..."
 	~/flutter/bin/flutter build apk --debug
+
+# Build iOS App (without code signing)
+build-ios:
+	@echo "Building Flutter iOS App (without code signing)..."
+	~/flutter/bin/flutter build ios --no-codesign
 
 # Install debug APK to device
 install-apk:
