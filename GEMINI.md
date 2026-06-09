@@ -35,3 +35,6 @@ Use the provided `Makefile` to run, build, and debug this application:
 1. **Asset Modifications**: If you modify `game.js`, `index.html`, or `index.css` under the `assets/` directory, the changes will be automatically picked up on the next hot restart or Flutter build.
 2. **Web Audio Compatibility**: The Android WebView requires user interaction to initialize the Web Audio API context. Ensure `AudioContext` resumes on first touch/click.
 3. **Responsive Canvas**: Keep the target aspect ratio in mind when tweaking layouts. Touch controls should dynamically scale.
+4. **Procedural Audio Synthesis**: Do not use raw audio file formats. Audio effects and background tracks are procedurally generated in `assets/game.js` via the Web Audio API's `SoundEffectsManager`. Scales and tempos are programmatically shifted to suit the atmosphere of the active level.
+5. **Level-Specific Classes**: Each level features specific enemy types subclassed from the generic `Enemy` parent class (e.g., `Shopper`, `Drunkard`, `CandyKid`, `ZappaFan`, `VolvoCar`, `DalarnaHorse`, `Elk`, `Guard`, `Raver`, `ABBAbot`). Ensure any game balance tweaks or new mechanics honor these subclass extensions.
+

@@ -63,56 +63,49 @@ The game features ten distinct thematic levels:
 
 ---
 
-## 📱 Android App Refactoring & CLI Build
+## 📱 Flutter App Wrapping & CLI Build
 
-This project has been refactored into a fully buildable Android Application wrapped in a native WebView. It includes:
-* **Mobile Touch Controls**: Left-side Virtual Joystick for movement and Sven direction aiming, plus right-side action buttons for melee (🏒) and ranged (🐟) attacks.
-* **Aspect-Ratio Scaling**: Auto-scales the game canvas to fit mobile displays while keeping the target 800x500 layout.
-* **Full-Screen Immersive Mode**: Uses native Android immersive sticky views to hide the system status/navigation bars.
-* **Automated Asset Sync**: A custom Gradle task copies game assets automatically on build.
+This project is wrapped in a full-screen, landscape-locked Flutter `WebViewWidget` that runs the web-based game. It features:
+* **Mobile Touch Controls**: A virtual joystick zones and action buttons on mobile touch layouts.
+* **Aspect-Ratio Scaling**: Automatic resizing of the HTML5 canvas to fit mobile screen resolutions.
+* **Sticky Full-Screen Immersive Mode**: Hides system status bars and navigation menus using Flutter's native window/system chrome configurations.
+* **Bypassed Audio Gesture Constraints**: Autoplay is enabled on the WebView so audio triggers without needing explicit user touch gestures.
 
-### Android Project Structure
-- [MainActivity.kt](file:///home/xbill/midsommer-android/app/src/main/java/com/midsommer/madness/MainActivity.kt): Native Activity launcher configuring WebView capabilities and full-screen flags.
-- [AndroidManifest.xml](file:///home/xbill/midsommer-android/app/src/main/AndroidManifest.xml): Controls screen orientation (landscape lock) and app configurations.
-- [build.gradle](file:///home/xbill/midsommer-android/app/build.gradle): Declares SDK compile versions, dependencies, and registers the `copyGameAssets` task.
+### Flutter Project Structure
+- [main.dart](file:///home/xbill/midsommer-flutter/lib/main.dart): Sets up full-screen immersive view, locks orientation to landscape, configures the `WebViewController`, and loads assets.
+- [pubspec.yaml](file:///home/xbill/midsommer-flutter/pubspec.yaml): Manages Dart packages and registers game assets (`assets/` directory) to compile them into the application bundle.
+- [index.html](file:///home/xbill/midsommer-flutter/assets/index.html): Mobile-first touch UI canvas and entry point.
 
-### 🛠️ Building the App via Android CLI (Makefile & Gradle)
+### 🛠️ Building and Deploying via CLI (Makefile)
 
-We provide a [Makefile](file:///home/xbill/midsommer-android/Makefile) to simplify building, deploying, and cleaning:
+We provide a [Makefile](file:///home/xbill/midsommer-flutter/Makefile) to simplify local development, compilation, and logs monitoring:
 
-1. **Verify JDK Installation:**
-   Ensure you have JDK 17 (or newer) installed. By default, the Makefile uses `/usr/lib/jvm/java-25-openjdk-amd64` (or you can override it using `make JAVA_HOME=/your/jdk/path ...`).
-
-2. **Setup SDK & Build tools (if not already done):**
+1. **Local Web Development**:
    ```bash
-   make setup-sdk
+   make dev
    ```
+   *Serves files directly from the assets directory to play in the browser.*
 
-3. **Build the Debug APK:**
+2. **Compile Android Debug APK**:
    ```bash
    make build-apk
    ```
-   *This automatically syncs web assets (`index.html`, `game.js`, `index.css`, images) into the Android assets directory (`app/src/main/assets/`) and outputs the APK at `app/build/outputs/apk/debug/app-debug.apk`.*
+   *Runs `flutter build apk --debug` to produce a debug APK.*
 
-4. **Install on a connected device / Emulator:**
-   With your device connected and USB debugging enabled, run:
+3. **Install on Connected Device/Emulator**:
    ```bash
    make install-apk
    ```
+   *Installs the compiled build using `flutter install`.*
 
-5. **Clean build artifacts:**
-   ```bash
-   make clean
-   ```
-
-6. **Monitor logs:**
+4. **Monitor Device Logs**:
    ```bash
    make logcat
    ```
+   *Views real-time logs using `flutter logs`.*
 
-### 💻 Opening in Android Studio
-1. Open **Android Studio**.
-2. Select **Open an existing project**.
-3. Select the `midsommer-android` project directory.
-4. Let Gradle synchronize, and press the **Run** button to launch.
-
+5. **Clean Workspace Caches**:
+   ```bash
+   make clean
+   ```
+   *Cleans the Flutter project build directories and temporary caches.*
