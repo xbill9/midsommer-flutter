@@ -1,0 +1,48 @@
+# Midsommer Madness - Flutter Build and Development Automation Makefile
+# Swedish-themed retro arcade game refactored to Flutter.
+
+JAVA_HOME ?= /usr/lib/jvm/java-25-openjdk-amd64
+export JAVA_HOME
+export PATH := $(JAVA_HOME)/bin:$(PATH)
+export ANDROID_HOME := /home/xbill/android-sdk
+
+.PHONY: help dev run build-apk install-apk clean logcat
+
+# Default target: show help
+help:
+	@echo "========================================================================"
+	@echo "🇸🇪  Midsommer Madness Flutter Build & Development Controls  🇸🇪"
+	@echo "========================================================================"
+	@echo "Available commands:"
+	@echo "  make dev          - Start the local web server for browser play (from assets/)"
+	@echo "  make build-apk    - Compile the Flutter App and build Debug APK"
+	@echo "  make install-apk  - Install the compiled debug APK on a connected device/emulator"
+	@echo "  make clean        - Clean Flutter build outputs and temporary caches"
+	@echo "  make logcat       - Monitor application logs using Flutter logger"
+	@echo "========================================================================"
+
+# Development server
+dev: run
+
+run:
+	npm run dev
+
+# Build debug APK
+build-apk:
+	@echo "Building Flutter Debug APK..."
+	~/flutter/bin/flutter build apk --debug
+
+# Install debug APK to device
+install-apk:
+	@echo "Installing Debug APK to connected device/emulator..."
+	~/flutter/bin/flutter install
+
+# Clean the workspace
+clean:
+	@echo "Cleaning Flutter project build directories..."
+	~/flutter/bin/flutter clean
+	@rm -rf build
+
+# Logs monitoring for debugging
+logcat:
+	~/flutter/bin/flutter logs
