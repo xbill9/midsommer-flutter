@@ -31,24 +31,24 @@ run:
 # Build debug APK
 build-apk:
 	@echo "Building Flutter Debug APK..."
-	~/flutter/bin/flutter build apk --debug
+	flutter build apk --debug
 
 # Build iOS App (without code signing)
 build-ios:
 	@echo "Building Flutter iOS App (without code signing)..."
-	~/flutter/bin/flutter build ios --no-codesign
+	flutter build ios --no-codesign
 
 # Install debug APK to device
 install-apk:
 	@echo "Installing Debug APK to connected device/emulator..."
-	~/flutter/bin/flutter install
+	flutter install
 
 # Clean the workspace
 clean:
 	@echo "Cleaning Flutter project build directories..."
-	~/flutter/bin/flutter clean
+	flutter clean
 	@rm -rf build
 
 # Logs monitoring for debugging
 logcat:
-	~/flutter/bin/flutter logs
+	flutter logs
